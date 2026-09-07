@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Filet de sécurité mécanique : supprime toute ligne d'attribution IA
+# qui aurait échappé au réglage attribution.commit="" de .claude/settings.json.
+# Voir : github.com/anthropics/claude-code/issues/77830 (edge case connu).
+sed -i.bak '/^Co-Authored-By: Claude/d; /^🤖 Generated with \[Claude Code\]/d; /^Claude-Session:/d' "$1"
+rm -f "$1.bak"
