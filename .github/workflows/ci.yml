@@ -28,6 +28,9 @@ jobs:
       - name: Format check
         run: npm run format:check
 
+      - name: Generate Next.js route types
+        run: npx next typegen
+
       - name: Type check
         run: npm run typecheck
 
@@ -42,7 +45,6 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.CI_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.CI_SUPABASE_ANON_KEY }}
 
-  # Optionnel — à activer dès que tu commences à versionner des migrations SQL Supabase.
   # Vérifie que chaque migration s'applique proprement sur une DB Postgres jetable,
   # avant de merger, plutôt que de découvrir un problème en preview/prod.
   db-migrations:
