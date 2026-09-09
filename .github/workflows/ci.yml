@@ -68,5 +68,17 @@ jobs:
         with:
           version: latest
 
+      - name: Vérifier la présence de migrations
+        id: check-migrations
+        run: |
+          if [ -d "supabase/migrations" ] && [ "$(ls -A supabase/migrations 2>/dev/null)" ]; then
+            echo "has_migrations=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_migrations=false" >> "$GITHUB_OUTPUT"
+          fi
+ 
       - name: Appliquer les migrations sur une DB jetable
-        run: supabase db push --db-url postgresql://postgres:postgres@localhost:5432/postgres
+        if: steps.check-migrations.outputs.has_migrations == 'true'
+        run: >
+          supabase db push --yes
+          --db-url "postgresql://postgres:postgres@localhost:5432/postgres?sslmode=disable"
