@@ -76,7 +76,7 @@ jobs:
           else
             echo "has_migrations=false" >> "$GITHUB_OUTPUT"
           fi
- 
+
       - name: Appliquer les migrations sur une DB jetable
         if: steps.check-migrations.outputs.has_migrations == 'true'
         run: >
